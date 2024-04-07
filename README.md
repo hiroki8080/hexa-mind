@@ -29,6 +29,9 @@ It is a mind map-like tool that arranges ideas on a hexagonal tile map.
 
 Initial release.
 
+### 0.1.1
+
+Fixed ReadMe.
 
 
 ---
