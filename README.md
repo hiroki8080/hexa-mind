@@ -8,7 +8,7 @@ It is a mind map-like tool that arranges ideas on a hexagonal tile map.
 * Data is saved in *.hexamind format.
 * Works offline
 
-<img width="1014" alt="hexamind" src="https://github.com/hiroki8080/vscode-hexa-mind/blob/main/media/screenshot.png">
+![Schreenshot 1](media/screenshot.png)
 
 ## Usage
 
