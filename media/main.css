@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+.hexamind-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	--wrapper-width: 140%;
+	width: var(--wrapper-width);
+	margin-right: calc(-1 * var(--wrapper-width) / 3 * 0.25 * 2 - var(--wrapper-width) / 3 * 0.05 * 2);
+	margin-bottom: 20%;
+}
+@media(max-width: 768px) {
+	.hexamind-wrapper {
+		--wrapper-width: 100%;
+		font-size: 3vw;
+	}
+}
+.hexamind-hexagons {
+	width: calc(100% / 16);
+}
+.hexamind-area {
+	display: flex;
+	justify-content: center;
+}
+.hexamind-hexagon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	aspect-ratio: 200 / 173;
+	background-color: lightgray;
+	clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+.hexamind-hexagon.dragging {
+  background-color: white;
+  opacity: 0.5;
+}
+.hexamind-hexagon:nth-of-type(1n){
+	margin-top: -5%;
+}
+.hexamind-area .hexamind-hexagons-line {
+	transform: translateY(calc(100% / 18));
+}
+.hexamind-area .hexamind-hexagons-line,
+.hexamind-area .hexamind-hexagons-line2 {
+	margin-left: calc(-100% / 16 * 0.25 - 100% / 16 * 0.05);
+}
+.hexamind-hexagon>div{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 90%;
+	height: 90%;
+	background-color: dimgray;
+	clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+.hexamind-hexagon>div>input {
+	color: gold;
+	width: 80%;
+	background-color: transparent;
+	border: none;
+}
