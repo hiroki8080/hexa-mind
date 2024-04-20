@@ -58,9 +58,13 @@ export class HexaMindEditorProvider implements vscode.CustomTextEditorProvider {
 			this.context.extensionUri, 'media', 'main.js'));
 		const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(
 			this.context.extensionUri, 'media', 'main.css'));
-		const nonce = getNonce();
+    const linkImgUri = webview.asWebviewUri(vscode.Uri.joinPath(
+      this.context.extensionUri, 'media', 'link.png'));
+    const memoImgUri = webview.asWebviewUri(vscode.Uri.joinPath(
+      this.context.extensionUri, 'media', 'memo.png'));
+    const nonce = getNonce();
 
-        return `<!DOCTYPE html>
+      var html = `<!DOCTYPE html>
         <html lang="ja">
         <head>
             <meta charset="UTF-8">
@@ -70,470 +74,22 @@ export class HexaMindEditorProvider implements vscode.CustomTextEditorProvider {
         </head>
         <body>
           <div class="hexamind-area">
-            <div class="hexamind-wrapper">
-              <div class="hexamind-hexagons hexamind-hexagons-line">
-                <div class="hexamind-hexagon drop" id="1-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="1-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="1-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="1-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="1-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="1-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="1-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="1-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="1-9">
-                  <div><input type="text"></div>
-                </div>
+            <div class="hexamind-wrapper">`;
+            for (let index = 1; index <= 16; index++) {
+              html += this.createRowElement(index, linkImgUri, memoImgUri);
+            }
+          html += `</div>
+          </div>
+          <div id="modal" class="modal">
+            <div class="modal-wrapper">
+              <div class="modal-head">
+                <button class="close">close</button>
+                <input type="hidden" id="modal-type">
+                <input type="hidden" id="modal-id">
+                <input type="hidden" id="modal-target-id">
               </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line2">
-                <div class="hexamind-hexagon drop" id="2-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drag" id="2-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="2-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="2-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drag" id="2-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="2-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="2-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drag" id="2-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="2-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line">
-                <div class="hexamind-hexagon drop" id="3-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="3-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="3-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="3-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="3-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="3-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="3-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="3-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="3-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line2">
-                <div class="hexamind-hexagon drop" id="4-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="4-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="4-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="4-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="4-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="4-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="4-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="4-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="4-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line">
-                <div class="hexamind-hexagon drop" id="5-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="5-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="5-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="5-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="5-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="5-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="5-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="5-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="5-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line2">
-                <div class="hexamind-hexagon drop" id="6-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="6-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="6-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="6-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="6-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="6-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="6-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="6-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="6-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line">
-                <div class="hexamind-hexagon drop" id="7-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="7-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="7-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="7-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="7-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="7-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="7-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="7-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="7-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line2">
-                <div class="hexamind-hexagon drop" id="8-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="8-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="8-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="8-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="8-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="8-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="8-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="8-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="8-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line">
-                <div class="hexamind-hexagon drop" id="9-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="9-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="9-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="9-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="9-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="9-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="9-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="9-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="9-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line2">
-                <div class="hexamind-hexagon drop" id="10-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="10-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="10-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="10-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="10-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="10-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="10-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="10-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="10-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line">
-                <div class="hexamind-hexagon drop" id="11-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="11-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="11-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="11-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="11-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="11-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="11-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="11-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="11-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line2">
-                <div class="hexamind-hexagon drop" id="12-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="12-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="12-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="12-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="12-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="12-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="12-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="12-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="12-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line">
-                <div class="hexamind-hexagon drop" id="13-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="13-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="13-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="13-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="13-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="13-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="13-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="13-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="13-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line2">
-                <div class="hexamind-hexagon drop" id="14-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="14-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="14-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="14-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="14-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="14-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="14-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="14-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="14-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line">
-                <div class="hexamind-hexagon drop" id="15-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="15-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="15-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="15-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="15-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="15-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="15-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="15-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="15-9">
-                  <div><input type="text"></div>
-                </div>
-              </div>
-              <div class="hexamind-hexagons hexamind-hexagons-line2">
-                <div class="hexamind-hexagon drop" id="16-1">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="16-2">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="16-3">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="16-4">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="16-5">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="16-6">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="16-7">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="16-8">
-                  <div><input type="text"></div>
-                </div>
-                <div class="hexamind-hexagon drop" id="16-9">
-                  <div><input type="text"></div>
-                </div>
+              <div class="modal-body">
+                <textarea id="modal-value" rows="5" cols="50"></textarea>
               </div>
             </div>
           </div>
@@ -541,21 +97,96 @@ export class HexaMindEditorProvider implements vscode.CustomTextEditorProvider {
           </body>
         </html>
         `;
+        return html;
 	}
 
-	private setData(document: vscode.TextDocument, data: { id: string; text: string; }[]) {
+  private createRowElement(index: number, linkImgUri: vscode.Uri, memoImgUri: vscode.Uri){
+    const lineClass = index % 2 == 0 ? "hexamind-hexagons-line2" : "hexamind-hexagons-line";
+    const html = `
+              <div class="hexamind-hexagons ${lineClass}">
+                <div class="hexamind-hexagon drop" id="${index}-1">
+                  <div>
+                    <input type="text" id="${index}-1-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-1-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-1-memo"></a>
+                  </div>
+                </div>
+                <div class="hexamind-hexagon drop" id="${index}-2">
+                  <div>
+                    <input type="text" id="${index}-2-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-2-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-2-memo"></a>
+                  </div>
+                </div>
+                <div class="hexamind-hexagon drop" id="${index}-3">
+                  <div>
+                    <input type="text" id="${index}-3-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-3-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-3-memo"></a>
+                  </div>
+                </div>
+                <div class="hexamind-hexagon drop" id="${index}-4">
+                  <div>
+                    <input type="text" id="${index}-4-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-4-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-4-memo"></a>
+                  </div>
+                </div>
+                <div class="hexamind-hexagon drop" id="${index}-5">
+                  <div>
+                    <input type="text" id="${index}-5-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-5-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-5-memo"></a>
+                  </div>
+                </div>
+                <div class="hexamind-hexagon drop" id="${index}-6">
+                  <div>
+                    <input type="text" id="${index}-6-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-6-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-6-memo"></a>
+                  </div>
+                </div>
+                <div class="hexamind-hexagon drop" id="${index}-7">
+                  <div>
+                    <input type="text" id="${index}-7-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-7-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-7-memo"></a>
+                  </div>
+                </div>
+                <div class="hexamind-hexagon drop" id="${index}-8">
+                  <div>
+                    <input type="text" id="${index}-8-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-8-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-8-memo"></a>
+                  </div>
+                </div>
+                <div class="hexamind-hexagon drop" id="${index}-9">
+                  <div>
+                    <input type="text" id="${index}-9-text">
+                    <a href="" class="link"><img src="${linkImgUri}" alt="link"><input type="hidden" id="${index}-9-link"></a>
+                    <a href="" class="memo"><img src="${memoImgUri}" alt="memo"><input type="hidden" id="${index}-9-memo"></a>
+                  </div>
+                </div>
+              </div>
+    `;
+    return html;
+  }
+
+	private setData(document: vscode.TextDocument, data: { id: string; text: string; link: string; memo: string;}[]) {
 		const json = this.getDocumentAsJson(document);
     json.data = Array.isArray(json.data) ? json.data : []
     var isUpdate = false;
-    data.forEach((element: { id: string; text: string; }) => {
-      json.data.forEach((saved_element: { id: string; text: string; }) => {
+    data.forEach((element: { id: string; text: string; link: string; memo: string;}) => {
+      json.data.forEach((saved_element: { id: string; text: string; link: string; memo: string;}) => {
         if (saved_element.id == element.id) {
           saved_element.text = element.text;
+          saved_element.link = element.link;
+          saved_element.memo = element.memo;
           isUpdate = true;
         }
       });
       if (!isUpdate) {
-        json.data.push({id: element.id, text: element.text})
+        json.data.push({id: element.id, text: element.text, link: element.link, memo: element.memo})
       }
     });
     return this.updateTextDocument(document, json);

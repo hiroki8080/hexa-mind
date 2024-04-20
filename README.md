@@ -19,7 +19,7 @@ It is a mind map-like tool that arranges ideas on a hexagonal tile map.
 
 ## Additional features planned
 
-* Additional information for tiles
+*  ~~Additional information for tiles
 * Color settings for tiles
 * Expansion of secondary data
 
@@ -32,6 +32,10 @@ Initial release.
 ### 0.1.1
 
 Fixed ReadMe.
+
+### 0.2.0
+
+Additional information for tiles.
 
 
 ---
